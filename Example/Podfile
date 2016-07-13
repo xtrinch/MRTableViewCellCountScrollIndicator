@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MRTableViewCellCountScrollIndicator_Example' do
+  pod 'MRTableViewCellCountScrollIndicator', :path => '../'
+
+  target 'MRTableViewCellCountScrollIndicator_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
