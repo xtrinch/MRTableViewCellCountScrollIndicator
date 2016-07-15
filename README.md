@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 [![Platform](https://img.shields.io/cocoapods/p/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 
-Shows a simple scroll count indicator
+Shows a simple UITableView scroll count indicator. Written in Swift 2.2.
 
 ## Example
 
