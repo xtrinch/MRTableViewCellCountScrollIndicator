@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RestKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        let baseUrl = NSURL(string:"http://trinch.dev.tovarnaidej.com")!
+        let objectManager = RKObjectManager(baseURL: baseUrl)
+        
+        // Initialize managed object model from bundle
+        let managedObjectModel:NSManagedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)!
+        // Initialize managed object store
+        let managedObjectStore:RKManagedObjectStore = RKManagedObjectStore(managedObjectModel:managedObjectModel)
+        objectManager.managedObjectStore = managedObjectStore
+        
+        // Complete Core Data stack initialization
+        managedObjectStore.createPersistentStoreCoordinator()
+        let storePath:String = RKApplicationDataDirectory().stringByAppendingString("ArticlesDB.sqlite")
+        do {
+            let persistentStore:NSPersistentStore = try managedObjectStore.addSQLitePersistentStoreAtPath(storePath, fromSeedDatabaseAtPath:nil, withConfiguration:nil, options:nil)
+        } catch {
+            print("Failed to add persistent store")
+        }
+        
+        // Create the managed object contexts
+        managedObjectStore.createManagedObjectContexts()
+        
+        // Configure a managed object cache to ensure we do not create duplicate objects
+        managedObjectStore.managedObjectCache = RKInMemoryManagedObjectCache(managedObjectContext: managedObjectStore.persistentStoreManagedObjectContext);
+        
+        // ENTITY MAPPING
+        
+        let articleListMapping = RKEntityMapping(forEntityForName: "ArticleList", inManagedObjectStore: managedObjectStore)
+        articleListMapping.identificationAttributes = ["title"]
+        articleListMapping.addAttributeMappingsFromDictionary([
+            "title"     : "title",
+            "syndication_url"      : "url",
+            "description"      : "article_description",
+        ])
+        
+        let articleMapping = RKEntityMapping(forEntityForName: "Article", inManagedObjectStore: managedObjectStore)
+        articleMapping.identificationAttributes = ["title"]
+        articleMapping.addAttributeMappingsFromDictionary([
+            "publish_date" : "publish_date",
+            "source" : "source",
+            "source_url" : "source_url",
+            "summary" : "summary",
+            "title" : "title",
+            "url" : "url"
+        ])
+        
+        articleListMapping.addPropertyMapping(RKRelationshipMapping(fromKeyPath: "articles", toKeyPath: "articles", withMapping: articleMapping))
+        
+        let articleListResponseDescriptor:RKResponseDescriptor = RKResponseDescriptor(mapping:articleListMapping,
+        method:RKRequestMethod.GET,
+        pathPattern:"/articles.json",
+        keyPath:nil,
+        statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClass.Successful))
+        
+        objectManager.addResponseDescriptor(articleListResponseDescriptor)
+
+        // Enable Activity Indicator Spinner
+        //[AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+        
         // Override point for customization after application launch.
         return true
     }

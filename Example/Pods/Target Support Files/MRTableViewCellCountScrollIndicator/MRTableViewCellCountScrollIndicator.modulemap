@@ -1,0 +1,6 @@
+framework module MRTableViewCellCountScrollIndicator {
+  umbrella header "MRTableViewCellCountScrollIndicator-umbrella.h"
+
+  export *
+  module * { export * }
+}
