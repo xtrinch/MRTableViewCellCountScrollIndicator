@@ -1,6 +1,6 @@
 # MRTableViewCellCountScrollIndicator
 
-[![CI Status](http://img.shields.io/travis/xTrinch/MRTableViewCellCountScrollIndicator.svg?style=flat)](https://travis-ci.org/xTrinch/MRTableViewCellCountScrollIndicator)
+[![CI Status](http://img.shields.io/travis/xTrinch/MRTableViewCellCountScrollIndicator.svg?style=flat)](https://travis-ci.org/xtrinch/MRTableViewCellCountScrollIndicator)
 [![Version](https://img.shields.io/cocoapods/v/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 [![License](https://img.shields.io/cocoapods/l/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 [![Platform](https://img.shields.io/cocoapods/p/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
