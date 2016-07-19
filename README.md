@@ -1,11 +1,11 @@
 # MRTableViewCellCountScrollIndicator
 
-[![CI Status](http://img.shields.io/travis/xTrinch/MRTableViewCellCountScrollIndicator.svg?style=flat)](https://travis-ci.org/xTrinch/MRTableViewCellCountScrollIndicator)
+[![CI Status](http://img.shields.io/travis/xtrinch/MRTableViewCellCountScrollIndicator.svg?style=flat)](https://travis-ci.org/xtrinch/MRTableViewCellCountScrollIndicator)
 [![Version](https://img.shields.io/cocoapods/v/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 [![License](https://img.shields.io/cocoapods/l/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 [![Platform](https://img.shields.io/cocoapods/p/MRTableViewCellCountScrollIndicator.svg?style=flat)](http://cocoapods.org/pods/MRTableViewCellCountScrollIndicator)
 
-Shows a simple scroll count indicator
+Shows a simple UITableView scroll count indicator. Written in Swift 2.2.
 
 ## Example
 
@@ -36,6 +36,7 @@ For fadeout see example project.
 	        cellCounter = MRTableViewCellCountScrollIndicator(tableView: tableView)
 	        cellCounter!.scrollCountView.mainBackgroundColor = UIColor.blueColor()
 	        cellCounter!.opacity = 0.7
+	        // important, initializes scroller with animation = false
 	        cellCounter!.showCellScrollCount(false)
 	        fetchDataFromApi()
 	    }
