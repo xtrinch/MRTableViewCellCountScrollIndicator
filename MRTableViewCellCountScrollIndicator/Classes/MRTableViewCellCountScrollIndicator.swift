@@ -10,7 +10,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     private var dragging:Bool = false
     
     
-    public var opacity:CGFloat = 0.7 {
+    public var opacity:CGFloat = 1 {
         didSet {
             scrollCountView.alpha = opacity
         }
