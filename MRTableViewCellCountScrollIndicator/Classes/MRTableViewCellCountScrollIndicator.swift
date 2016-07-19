@@ -9,7 +9,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     public var scrollCountViewHeight:CGFloat = 20
     private var dragging:Bool = false
     private var dynamicUnpagedHeight:Bool = false
-    private var currentCellRect:CGRect?
+    //private var currentCellRect:CGRect?
     
     public var opacity:CGFloat = 1 {
         didSet {
@@ -20,13 +20,14 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     public var totalScrollCountNum = 0 {
         didSet {
             scrollCountView.totalScrollCountNum = totalScrollCountNum
-            showCellScrollCount(false)
         }
     }
     
     public init(tableView:UITableView) {
         self.tableView = tableView
+        super.init()
         tableView.addSubview(scrollCountView)
+        showCellScrollCount(false)
     }
     
     public func showCellScrollCount(animated:Bool) {
@@ -45,10 +46,10 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     
     func updateScrollPosition() {
         
-        if currentCellRect != nil {
+        /*if currentCellRect != nil {
             return
-        }
-        
+        }*/
+        var currentCellRect:CGRect?
         let indexPaths = tableView.indexPathsForVisibleRows
         if let indexPaths = indexPaths {
             if indexPaths.count > 0 {
@@ -119,7 +120,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
             )
         }
         
-        currentCellRect = nil
+        //currentCellRect = nil
     }
     
 }
