@@ -37,6 +37,16 @@ public class ScrollCountView: NibLoadingView {
         
         return width
     }
+
+    
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+     let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners:[.TopLeft, .BottomLeft, .TopRight, .BottomRight], cornerRadii: CGSizeMake(3, 3))
+     let maskLayer = CAShapeLayer()
+     maskLayer.frame = layer.bounds
+     maskLayer.path = path.CGPath
+     self.layer.mask = maskLayer
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

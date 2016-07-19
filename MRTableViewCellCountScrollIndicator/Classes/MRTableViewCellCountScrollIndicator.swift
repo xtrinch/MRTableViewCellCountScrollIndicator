@@ -106,8 +106,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
             } else if(finalY > tableView.contentSize.height - scrollCountViewHeight) {
                 finalY = tableView.contentSize.height - scrollCountViewHeight
             }
-            
-            print((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum))
+
             scrollCountView.frame = CGRect(
                 origin: CGPoint(
                     x: tableView.bounds.size.width - scrollCountView.width - rightOffset,

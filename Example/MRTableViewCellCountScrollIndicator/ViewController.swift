@@ -76,7 +76,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(articles.count)
         return articles.count
     }
     
