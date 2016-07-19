@@ -12,7 +12,7 @@ public class ScrollCountView: NibLoadingView {
     
     public var currentScrollCountNum = 1 {
         didSet {
-            currentScrollCount.text = "\(currentScrollCountNum)"
+            currentScrollCount.text = "\(currentScrollCountNum + 1)"
         }
     }
     public var totalScrollCountNum = 0 {

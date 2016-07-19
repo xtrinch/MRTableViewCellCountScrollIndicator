@@ -28,7 +28,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Complete Core Data stack initialization
         managedObjectStore.createPersistentStoreCoordinator()
-        let storePath:String = RKApplicationDataDirectory().stringByAppendingString("ArticlesDB.sqlite")
+        var error:NSError?
+        let success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
+        if (!success) {
+            print("Failed to create Application Data Directory at path" + RKApplicationDataDirectory());
+        } else {
+            print(error.debugDescription)
+        }
+        
+        let storePath:String = RKApplicationDataDirectory().stringByAppendingString("/ArticlesDB.sqlite")
         do {
             let persistentStore:NSPersistentStore = try managedObjectStore.addSQLitePersistentStoreAtPath(storePath, fromSeedDatabaseAtPath:nil, withConfiguration:nil, options:nil)
         } catch {

@@ -8,11 +8,18 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     public var tableView:UITableView
     public var scrollCountViewHeight:CGFloat = 20
     private var dragging:Bool = false
-    
+    private var dynamicUnpagedHeight:Bool = false
     
     public var opacity:CGFloat = 1 {
         didSet {
             scrollCountView.alpha = opacity
+        }
+    }
+    
+    public var totalScrollCountNum = 0 {
+        didSet {
+            scrollCountView.totalScrollCountNum = totalScrollCountNum
+            showCellScrollCount(false)
         }
     }
     
@@ -39,37 +46,73 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     func updateScrollPosition() {
         
         let indexPaths = tableView.indexPathsForVisibleRows
+        var currentIndexPath:NSIndexPath?
         if let indexPaths = indexPaths {
             if indexPaths.count > 0 {
+                currentIndexPath = indexPaths[0]
                 scrollCountView.currentScrollCountNum = indexPaths[0].row
             }
         }
         
-        let viewSize = tableView.bounds.size.height
-        let tableContentHeight = tableView.contentSize.height
-        let scrollLimit = tableContentHeight - viewSize
-        let scrollOffset = tableView.contentOffset.y
-        let scrollDelta = scrollOffset / scrollLimit
-        
-        //let trackerFrame = scrollCountView.frame
-        let trackerTravel = viewSize - scrollCountViewHeight
-        var trackerOffset = scrollOffset + (trackerTravel * scrollDelta)
-        
-        // dock tracker with tableView content end/start if bouncing
-        if trackerOffset < 0 {
-            trackerOffset = 0
-        } else if (trackerOffset >= tableContentHeight - scrollCountViewHeight) {
-            trackerOffset = tableContentHeight - scrollCountViewHeight
+        if currentIndexPath == nil {
+            return
         }
         
-        let width = scrollCountView.width
-        scrollCountView.frame = CGRect(
-            origin: CGPoint(
-                x: tableView.bounds.size.width - width - rightOffset,
-                y: trackerOffset
-            ),
-            size: CGSize(width: width, height: scrollCountViewHeight)
-        )
+        if (dynamicUnpagedHeight) {
+            
+            let viewSize = tableView.bounds.size.height
+            let tableContentHeight = tableView.contentSize.height
+            let scrollLimit = tableContentHeight - viewSize
+            let scrollOffset = tableView.contentOffset.y
+            let scrollDelta = scrollOffset / scrollLimit
+            
+            //let trackerFrame = scrollCountView.frame
+            let trackerTravel = viewSize - scrollCountViewHeight
+            var trackerOffset = scrollOffset + (trackerTravel * scrollDelta)
+            
+            // dock tracker with tableView content end/start if bouncing
+            if trackerOffset < 0 {
+                trackerOffset = 0
+            } else if (trackerOffset >= tableContentHeight - scrollCountViewHeight) {
+                trackerOffset = tableContentHeight - scrollCountViewHeight
+            }
+            
+            let width = scrollCountView.width
+            scrollCountView.frame = CGRect(
+                origin: CGPoint(
+                    x: tableView.bounds.size.width - width - rightOffset,
+                    y: trackerOffset
+                ),
+                size: CGSize(width: width, height: scrollCountViewHeight)
+            )
+        } else {
+            if totalScrollCountNum == 0 {
+                return
+            }
+            
+            let oneDistance = tableView.bounds.size.height / CGFloat(totalScrollCountNum)
+            let currentCellRect = tableView.rectForRowAtIndexPath(currentIndexPath!)
+            let currentCellHeight = currentCellRect.size.height
+            let currentCellOffset = currentCellRect.origin.y
+            let currentOffset = tableView.contentOffset.y
+            print("numz")
+            print(oneDistance)
+            print(currentCellHeight)
+            print(currentCellOffset)
+            print(currentOffset)
+            
+            let dxp = (currentOffset - currentCellOffset)/currentCellHeight
+            let dx = dxp * oneDistance
+            
+            print((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum))
+            scrollCountView.frame = CGRect(
+                origin: CGPoint(
+                    x: tableView.bounds.size.width - scrollCountView.width - rightOffset,
+                    y: tableView.contentOffset.y + ((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum)) + dx
+                ),
+                size: CGSize(width: scrollCountView.width, height: scrollCountViewHeight)
+            )
+        }
     }
     
 }
