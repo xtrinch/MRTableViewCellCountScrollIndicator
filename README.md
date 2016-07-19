@@ -36,8 +36,6 @@ For fadeout see example project.
 	        cellCounter = MRTableViewCellCountScrollIndicator(tableView: tableView)
 	        cellCounter!.scrollCountView.mainBackgroundColor = UIColor.blueColor()
 	        cellCounter!.opacity = 0.7
-	        // important, initializes scroller with animation = false
-	        cellCounter!.showCellScrollCount(false)
 	        fetchDataFromApi()
 	    }
 	    
