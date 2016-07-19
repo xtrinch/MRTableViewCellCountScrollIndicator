@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cellCounter = MRTableViewCellCountScrollIndicator(tableView: tableView)
         cellCounter!.scrollCountView.mainBackgroundColor = UIColor.blueColor()
         cellCounter!.opacity = 0.7
-        cellCounter!.rightOffset = 8
+        cellCounter!.rightOffset = 0
         //cellCounter!.showCellScrollCount(false)
         requestData()
         // Do any additional setup after loading the view, typically from a nib.

@@ -66,7 +66,7 @@
                     <rect key="frame" x="73" y="0.0" width="7" height="84"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L2h-Y7-5fr" userLabel="TopTriangle" customClass="TopTriangle" customModule="MRTableViewCellCountScrollIndicator" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="7" height="42"/>
+                            <rect key="frame" x="0.0" y="0.0" width="7" height="43"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aHj-3S-Tks" userLabel="BottomTriangle" customClass="BottomTriangle" customModule="MRTableViewCellCountScrollIndicator" customModuleProvider="target">
@@ -83,7 +83,7 @@
                         <constraint firstAttribute="trailing" secondItem="aHj-3S-Tks" secondAttribute="trailing" id="boV-VH-w5N"/>
                         <constraint firstItem="L2h-Y7-5fr" firstAttribute="top" secondItem="hel-Uv-Vnn" secondAttribute="top" id="g5T-jr-PiT"/>
                         <constraint firstAttribute="trailing" secondItem="L2h-Y7-5fr" secondAttribute="trailing" id="lkY-c4-qIN"/>
-                        <constraint firstItem="L2h-Y7-5fr" firstAttribute="bottom" secondItem="aHj-3S-Tks" secondAttribute="top" id="szb-YB-PmE"/>
+                        <constraint firstItem="L2h-Y7-5fr" firstAttribute="bottom" secondItem="aHj-3S-Tks" secondAttribute="top" constant="1" id="szb-YB-PmE"/>
                         <constraint firstItem="L2h-Y7-5fr" firstAttribute="height" secondItem="aHj-3S-Tks" secondAttribute="height" id="vmq-66-cS0"/>
                     </constraints>
                 </view>

@@ -95,20 +95,23 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
             let currentCellHeight = currentCellRect.size.height
             let currentCellOffset = currentCellRect.origin.y
             let currentOffset = tableView.contentOffset.y
-            print("numz")
-            print(oneDistance)
-            print(currentCellHeight)
-            print(currentCellOffset)
-            print(currentOffset)
-            
+
             let dxp = (currentOffset - currentCellOffset)/currentCellHeight
             let dx = dxp * oneDistance
+            
+            var finalY = tableView.contentOffset.y + ((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum)) + dx
+            
+            if (finalY < 0) {
+                finalY = 0
+            } else if(finalY > tableView.contentSize.height - scrollCountViewHeight) {
+                finalY = tableView.contentSize.height - scrollCountViewHeight
+            }
             
             print((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum))
             scrollCountView.frame = CGRect(
                 origin: CGPoint(
                     x: tableView.bounds.size.width - scrollCountView.width - rightOffset,
-                    y: tableView.contentOffset.y + ((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum)) + dx
+                    y: finalY
                 ),
                 size: CGSize(width: scrollCountView.width, height: scrollCountViewHeight)
             )
