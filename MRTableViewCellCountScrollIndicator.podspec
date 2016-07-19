@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MRTableViewCellCountScrollIndicator'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Table View Cell Scroll Count Indicator'
 
 # This description is used to generate tags and improve search results.
