@@ -9,8 +9,8 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     public var scrollCountViewHeight:CGFloat = 20
     private var dragging:Bool = false
     private var dynamicUnpagedHeight:Bool = false
-    private var currentCellRect:CGRect?
-    
+    var y:CGFloat = -1000
+
     public var opacity:CGFloat = 1 {
         didSet {
             scrollCountView.alpha = opacity
@@ -38,19 +38,20 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
         switch (keyPath, object) {
             
         case (.Some("contentOffset"), _):
-            self.updateScrollPosition()
-        default:
+            if y != tableView.contentOffset.y && totalScrollCountNum != 0 {
+                y = tableView.contentOffset.y
+                self.updateScrollPosition()
+            }
+            default:
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
     
     func updateScrollPosition() {
-        
-        if currentCellRect != nil {
-            return
-        }
+
         //var currentCellRect:CGRect?
         let indexPaths = tableView.indexPathsForVisibleRows
+        var currentCellRect:CGRect?
         if let indexPaths = indexPaths {
             if indexPaths.count > 0 {
                 currentCellRect = tableView.rectForRowAtIndexPath(indexPaths[0])
@@ -119,8 +120,6 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
                 size: CGSize(width: scrollCountView.width, height: scrollCountViewHeight)
             )
         }
-        
-        currentCellRect = nil
     }
     
 }
