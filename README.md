@@ -36,12 +36,13 @@ For fadeout see example project.
 	        cellCounter = MRTableViewCellCountScrollIndicator(tableView: tableView)
 	        cellCounter!.scrollCountView.mainBackgroundColor = UIColor.blueColor()
 	        cellCounter!.opacity = 0.7
+	        cellCounter!.rightOffset = 0
 	        fetchDataFromApi()
 	    }
 	    
 	    func fetchDataFromApi() {
 	      // fetch data
-	      cellCounter!.scrollCountView.totalScrollCountNum = articles.count
+	      cellCounter!.totalScrollCountNum = articles.count
 	      tableView.reloadData()
 	    }
 	}
