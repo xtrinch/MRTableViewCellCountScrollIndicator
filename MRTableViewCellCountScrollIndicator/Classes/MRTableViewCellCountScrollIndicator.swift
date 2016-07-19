@@ -46,11 +46,9 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     func updateScrollPosition() {
         
         let indexPaths = tableView.indexPathsForVisibleRows
-        var currentIndexPath:NSIndexPath?
         var currentCellRect:CGRect?
         if let indexPaths = indexPaths {
             if indexPaths.count > 0 {
-                currentIndexPath = indexPaths[0]
                 currentCellRect = tableView.rectForRowAtIndexPath(indexPaths[0])
                 scrollCountView.currentScrollCountNum = indexPaths[0].row
             }
