@@ -30,7 +30,6 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     
     public func showCellScrollCount(animated:Bool) {
         self.tableView.addObserver(self, forKeyPath: "contentOffset", options: NSKeyValueObservingOptions.New, context: nil)
-        self.tableView.addObserver(self, forKeyPath: "dragging", options: NSKeyValueObservingOptions.New, context: nil)
     }
     
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
