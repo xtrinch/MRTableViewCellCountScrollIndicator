@@ -47,14 +47,19 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
         
         let indexPaths = tableView.indexPathsForVisibleRows
         var currentIndexPath:NSIndexPath?
+        var currentCellRect:CGRect?
         if let indexPaths = indexPaths {
             if indexPaths.count > 0 {
                 currentIndexPath = indexPaths[0]
+                print(indexPaths)
+                print(indexPaths[0])
+                currentCellRect = tableView.rectForRowAtIndexPath(indexPaths[0])
                 scrollCountView.currentScrollCountNum = indexPaths[0].row
             }
         }
         
-        if currentIndexPath == nil {
+        
+        guard let currentIndexPathu = currentIndexPath, let currentCellRectu = currentCellRect else {
             return
         }
         
@@ -91,9 +96,8 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
             }
             
             let oneDistance = tableView.bounds.size.height / CGFloat(totalScrollCountNum)
-            let currentCellRect = tableView.rectForRowAtIndexPath(currentIndexPath!)
-            let currentCellHeight = currentCellRect.size.height
-            let currentCellOffset = currentCellRect.origin.y
+            let currentCellHeight = currentCellRectu.size.height
+            let currentCellOffset = currentCellRectu.origin.y
             let currentOffset = tableView.contentOffset.y
 
             let dxp = (currentOffset - currentCellOffset)/currentCellHeight
