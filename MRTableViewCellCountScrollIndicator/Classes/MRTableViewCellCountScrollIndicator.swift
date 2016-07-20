@@ -2,15 +2,16 @@ import Foundation
 import UIKit
 
 public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate {
-
+    
     public let scrollCountView = ScrollCountView()
-    public var rightOffset:CGFloat = 8    
-    public var tableView:UITableView
+    public var rightOffset:CGFloat = 8
+    public weak var tableView:UITableView!
     public var scrollCountViewHeight:CGFloat = 20
     private var dragging:Bool = false
     private var dynamicUnpagedHeight:Bool = false
     var y:CGFloat = -1000
-
+    private var topConstraint : NSLayoutConstraint!
+    
     public var opacity:CGFloat = 1 {
         didSet {
             scrollCountView.alpha = opacity
@@ -25,8 +26,23 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     
     public init(tableView:UITableView) {
         self.tableView = tableView
+        tableView.layoutIfNeeded()
         super.init()
+        scrollCountView.translatesAutoresizingMaskIntoConstraints = false
         tableView.addSubview(scrollCountView)
+        
+        var rightConstraint: NSLayoutConstraint!
+        var heightConstraint: NSLayoutConstraint!
+        
+        
+        topConstraint = NSLayoutConstraint(item: scrollCountView, attribute: .Top, relatedBy: .Equal, toItem: (tableView), attribute: .Top, multiplier: 1, constant: 0)
+        tableView.addConstraint(topConstraint)
+        
+        heightConstraint = NSLayoutConstraint(item: scrollCountView, attribute: .Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: scrollCountViewHeight)
+        tableView.addConstraint(heightConstraint)
+        
+        rightConstraint = NSLayoutConstraint(item: scrollCountView, attribute: .Trailing, relatedBy: .Equal, toItem: tableView, attribute: .Leading, multiplier: 1, constant: tableView.contentSize.width)
+        tableView.addConstraint(rightConstraint)
         showCellScrollCount(false)
     }
     
@@ -42,13 +58,13 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
                 y = tableView.contentOffset.y
                 self.updateScrollPosition()
             }
-            default:
+        default:
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
     
     func updateScrollPosition() {
-
+        
         //var currentCellRect:CGRect?
         let indexPaths = tableView.indexPathsForVisibleRows
         var currentCellRect:CGRect?
@@ -100,7 +116,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
             let currentCellHeight = currentCellRectu.size.height
             let currentCellOffset = currentCellRectu.origin.y
             let currentOffset = tableView.contentOffset.y
-
+            
             let dxp = (currentOffset - currentCellOffset)/currentCellHeight
             let dx = dxp * oneDistance
             
@@ -111,14 +127,8 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
             } else if(finalY > tableView.contentSize.height - scrollCountViewHeight) {
                 finalY = tableView.contentSize.height - scrollCountViewHeight
             }
-
-            scrollCountView.frame = CGRect(
-                origin: CGPoint(
-                    x: tableView.bounds.size.width - scrollCountView.width - rightOffset,
-                    y: finalY
-                ),
-                size: CGSize(width: scrollCountView.width, height: scrollCountViewHeight)
-            )
+            
+            topConstraint.constant = finalY
         }
     }
     
