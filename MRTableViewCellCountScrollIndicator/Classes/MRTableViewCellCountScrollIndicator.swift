@@ -24,6 +24,10 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
         }
     }
     
+    deinit {
+        self.tableView.removeObserver(self, forKeyPath: "contentOffset")
+    }
+    
     public init(tableView:UITableView) {
         self.tableView = tableView
         tableView.layoutIfNeeded()
