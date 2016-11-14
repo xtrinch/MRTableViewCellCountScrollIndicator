@@ -11,6 +11,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     private var dynamicUnpagedHeight:Bool = false
     var y:CGFloat = -1000
     private var topConstraint : NSLayoutConstraint!
+    var rectHeight:CGFloat?
     
     public var opacity:CGFloat = 1 {
         didSet {
@@ -31,6 +32,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     public init(tableView:UITableView) {
         self.tableView = tableView
         tableView.layoutIfNeeded()
+        self.rectHeight = self.tableView.frame.height
         super.init()
         scrollCountView.translatesAutoresizingMaskIntoConstraints = false
         tableView.addSubview(scrollCountView)
@@ -48,6 +50,7 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
         rightConstraint = NSLayoutConstraint(item: scrollCountView, attribute: .Trailing, relatedBy: .Equal, toItem: tableView, attribute: .Leading, multiplier: 1, constant: tableView.contentSize.width)
         tableView.addConstraint(rightConstraint)
         showCellScrollCount(false)
+        
     }
     
     public func showCellScrollCount(animated:Bool) {
@@ -69,16 +72,25 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
     
     func updateScrollPosition() {
         
-        //var currentCellRect:CGRect?
+        var percentage: CGFloat?
+        if let h = self.rectHeight {
+            percentage = (self.tableView.contentOffset.y)/(self.tableView.contentSize.height - h)
+            if (percentage < 0) {
+                percentage = 0
+            }
+
+            if let index = self.tableView.indexPathForRowAtPoint(CGPoint(x: 0, y: percentage!*self.tableView.contentSize.height)) {
+                scrollCountView.currentScrollCountNum = index.row
+            }
+        }
+        
         let indexPaths = tableView.indexPathsForVisibleRows
         var currentCellRect:CGRect?
         if let indexPaths = indexPaths {
             if indexPaths.count > 0 {
                 currentCellRect = tableView.rectForRowAtIndexPath(indexPaths[0])
-                scrollCountView.currentScrollCountNum = indexPaths[0].row
             }
         }
-        
         
         guard let currentCellRectu = currentCellRect else {
             return
@@ -116,24 +128,16 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
                 return
             }
             
-            let oneDistance = tableView.bounds.size.height / CGFloat(totalScrollCountNum)
-            let currentCellHeight = currentCellRectu.size.height
-            let currentCellOffset = currentCellRectu.origin.y
-            let currentOffset = tableView.contentOffset.y
-            
-            let dxp = (currentOffset - currentCellOffset)/currentCellHeight
-            let dx = dxp * oneDistance
-            
-            var finalY = tableView.contentOffset.y + ((tableView.bounds.size.height*CGFloat(scrollCountView.currentScrollCountNum)) / CGFloat(totalScrollCountNum)) + dx
-            
-            if (finalY < 0) {
-                finalY = 0
-            } else if(finalY > tableView.contentSize.height - scrollCountViewHeight) {
-                finalY = tableView.contentSize.height - scrollCountViewHeight
+            if let p = percentage {
+                var finalY = tableView.contentSize.height * percentage!
+                
+                if (finalY < 0) {
+                    finalY = 0
+                } else if(finalY > tableView.contentSize.height - scrollCountViewHeight) {
+                    finalY = tableView.contentSize.height - scrollCountViewHeight
+                }
+                topConstraint.constant = finalY
             }
-            
-            topConstraint.constant = finalY
         }
     }
-    
 }
