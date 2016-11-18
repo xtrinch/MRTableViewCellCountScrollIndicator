@@ -133,7 +133,6 @@ public class MRTableViewCellCountScrollIndicator:NSObject, UIScrollViewDelegate 
                 finalY = 0
             } else if(finalY > (tableView.contentOffset.y + self.rectHeight - scrollCountViewHeight)) {
                 var difY = finalY - (tableView.contentOffset.y + self.rectHeight - scrollCountViewHeight)
-                print(difY)
                 finalY -= difY
             }
             topConstraint.constant = finalY
